@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 8 Mathematics - Functions & Quadratic Functions Practice</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering math formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800 bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/20 p-2 rounded-lg">
+                    <i class="fa-solid fa-calculator text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Sampoerna Academy Practice</h1>
+                    <p class="text-xs text-indigo-200">Grade 8 Math • Functions & Quadratic Functions</p>
+                </div>
+            </div>
+
+            <!-- Score Badge & Reset -->
+            <div class="flex items-center space-x-4">
+                <div class="bg-indigo-900/60 border border-indigo-400/30 rounded-xl px-4 py-1.5 flex items-center space-x-2">
+                    <span class="text-xs uppercase tracking-wider font-semibold text-indigo-200">Total Score:</span>
+                    <span id="score-display" class="text-lg font-extrabold text-amber-300">0 / 26</span>
+                </div>
+                <button onclick="resetAll()" class="text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-3 py-1.5 rounded-lg transition border border-indigo-400/40">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="lg:col-span-3 space-y-4">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 sticky top-20">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Questions Navigation</h2>
+                <nav class="space-y-1.5">
+                    <button onclick="scrollToQuestion('q1')" class="w-full text-left px-3 py-2.5 rounded-xl font-medium text-sm flex items-center justify-between hover:bg-slate-100 transition text-slate-700" id="nav-q1">
+                        <span>1. Solving Equations</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" id="badge-q1">0/5</span>
+                    </button>
+                    <button onclick="scrollToQuestion('q2')" class="w-full text-left px-3 py-2.5 rounded-xl font-medium text-sm flex items-center justify-between hover:bg-slate-100 transition text-slate-700" id="nav-q2">
+                        <span>2. Function Machine</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" id="badge-q2">0/2</span>
+                    </button>
+                    <button onclick="scrollToQuestion('q3')" class="w-full text-left px-3 py-2.5 rounded-xl font-medium text-sm flex items-center justify-between hover:bg-slate-100 transition text-slate-700" id="nav-q3">
+                        <span>3. Turning Point & Symmetry</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" id="badge-q3">0/5</span>
+                    </button>
+                    <button onclick="scrollToQuestion('q4')" class="w-full text-left px-3 py-2.5 rounded-xl font-medium text-sm flex items-center justify-between hover:bg-slate-100 transition text-slate-700" id="nav-q4">
+                        <span>4. Plotting Graph</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" id="badge-q4">0/4</span>
+                    </button>
+                    <button onclick="scrollToQuestion('q5')" class="w-full text-left px-3 py-2.5 rounded-xl font-medium text-sm flex items-center justify-between hover:bg-slate-100 transition text-slate-700" id="nav-q5">
+                        <span>5. Composite Functions</span>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600" id="badge-q5">0/10</span>
+                    </button>
+                </nav>
+
+                <div class="mt-6 pt-4 border-t border-slate-100">
+                    <div class="text-xs text-slate-500 space-y-1">
+                        <p><i class="fa-solid fa-clock text-indigo-500 mr-1"></i> Time limit: <strong>40 minutes</strong></p>
+                        <p><i class="fa-solid fa-ban-smoke text-rose-500 mr-1"></i> Calculator: <strong>NOT allowed</strong></p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Questions Area -->
+        <main class="lg:col-span-9 space-y-8">
+
+            <!-- Question 1 -->
+            <section id="q1" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-sm font-extrabold">1</span>
+                        Solve Equations
+                    </h2>
+                    <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Total: 5 Marks</span>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Part A -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700">
+                                (a) Solve \((4x + 1)(x - 2) = 0\)
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[2 marks]</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q1a_1" class="w-24 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="-1/4 or -0.25">
+                            </div>
+                            <span class="text-slate-500 font-medium">or</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q1a_2" class="w-24 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part B -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700">
+                                (b) Solve \(x^2 - 8x + 12 = 0\)
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[3 marks]</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q1b_1" class="w-24 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="2">
+                            </div>
+                            <span class="text-slate-500 font-medium">or</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q1b_2" class="w-24 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex gap-2">
+                        <button onclick="checkQ1()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-check text-xs"></i> Check Answer
+                        </button>
+                        <button onclick="toggleSolution('sol-q1')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i> Solution
+                        </button>
+                    </div>
+                    <div id="feedback-q1" class="text-sm font-semibold hidden"></div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div id="sol-q1" class="hidden mt-4 p-4 bg-indigo-50/70 border border-indigo-100 rounded-xl text-slate-700 text-sm space-y-3">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Step-by-Step Solution
+                    </h4>
+                    <div class="space-y-2 leading-relaxed">
+                        <p><strong>(a)</strong> Set each factor to zero:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>\(4x + 1 = 0 \implies 4x = -1 \implies x = -\frac{1}{4}\) (or \(-0.25\))</li>
+                            <li>\(x - 2 = 0 \implies x = 2\)</li>
+                        </ul>
+                        <p><strong>(b)</strong> Factorize the quadratic equation \(x^2 - 8x + 12 = 0\):</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Find numbers multiplying to \(+12\) and adding to \(-8\): these are \(-2\) and \(-6\).</li>
+                            <li>\((x - 2)(x - 6) = 0\)</li>
+                            <li>\(x = 2\) or \(x = 6\)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 2 -->
+            <section id="q2" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-sm font-extrabold">2</span>
+                        Function Machine
+                    </h2>
+                    <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Total: 2 Marks</span>
+                </div>
+
+                <div class="space-y-6">
+                    <p class="text-slate-600 text-sm">
+                        The function machine performs two operations on an input \(x\): first <strong>square</strong>, then <strong>subtract 9</strong> to output \(y = x^2 - 9\).
+                    </p>
+
+                    <!-- Mapping Diagram Visual -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col md:flex-row items-center justify-center gap-8">
+                        <!-- Left Oval (Inputs) -->
+                        <div class="border-2 border-indigo-400 bg-white rounded-full w-28 h-48 flex flex-col items-center justify-around py-4 shadow-sm relative">
+                            <span class="text-xs font-bold uppercase text-indigo-400 tracking-wider">Input (x)</span>
+                            <div class="font-bold text-lg text-slate-800">4</div>
+                            <div class="w-full px-3">
+                                <input type="text" id="q2_input2" class="w-full text-center border-b-2 border-indigo-500 font-bold text-slate-800 focus:outline-none bg-transparent" placeholder="?">
+                            </div>
+                        </div>
+
+                        <!-- Arrows with Rule -->
+                        <div class="flex flex-col items-center space-y-4">
+                            <div class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold shadow-sm flex items-center gap-2">
+                                <span>1. Square</span>
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                <span>2. Subtract 9</span>
+                            </div>
+                            <div class="text-xs text-slate-400 font-medium">\(y = x^2 - 9\)</div>
+                        </div>
+
+                        <!-- Right Oval (Outputs) -->
+                        <div class="border-2 border-indigo-400 bg-white rounded-full w-28 h-48 flex flex-col items-center justify-around py-4 shadow-sm relative">
+                            <span class="text-xs font-bold uppercase text-indigo-400 tracking-wider">Output (y)</span>
+                            <div class="w-full px-3">
+                                <input type="text" id="q2_output1" class="w-full text-center border-b-2 border-indigo-500 font-bold text-slate-800 focus:outline-none bg-transparent" placeholder="?">
+                            </div>
+                            <div class="font-bold text-lg text-slate-800">40</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex gap-2">
+                        <button onclick="checkQ2()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-check text-xs"></i> Check Answer
+                        </button>
+                        <button onclick="toggleSolution('sol-q2')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i> Solution
+                        </button>
+                    </div>
+                    <div id="feedback-q2" class="text-sm font-semibold hidden"></div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div id="sol-q2" class="hidden mt-4 p-4 bg-indigo-50/70 border border-indigo-100 rounded-xl text-slate-700 text-sm space-y-3">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Step-by-Step Solution
+                    </h4>
+                    <div class="space-y-2 leading-relaxed">
+                        <p><strong>Top Mapping: Input \(x = 4\)</strong></p>
+                        <p class="pl-4">\(y = 4^2 - 9 = 16 - 9 = 7\)</p>
+                        <p><strong>Bottom Mapping: Output \(y = 40\)</strong></p>
+                        <p class="pl-4">\(x^2 - 9 = 40 \implies x^2 = 49 \implies x = 7\) (or \(-7\), standard positive input is 7).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 3 -->
+            <section id="q3" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-sm font-extrabold">3</span>
+                        Properties of Quadratic Graph: \(y = -(x + 1)(x - 9)\)
+                    </h2>
+                    <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Total: 5 Marks</span>
+                </div>
+
+                <div class="space-y-5">
+                    <!-- Part A -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700">
+                                (a) State whether the graph has a <strong>maximum</strong> or a <strong>minimum</strong> point.
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[1 mark]</span>
+                        </div>
+                        <select id="q3a" class="w-full sm:w-64 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white text-sm">
+                            <option value="">-- Select Choice --</option>
+                            <option value="Maximum">Maximum point</option>
+                            <option value="Minimum">Minimum point</option>
+                        </select>
+                    </div>
+
+                    <!-- Part B -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700">
+                                (b) Find the equation of the line of symmetry of \(y = -(x+1)(x-9)\).
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[2 marks]</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-slate-600 font-semibold">\(x =\)</span>
+                            <input type="text" id="q3b" class="w-32 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="e.g. 4">
+                        </div>
+                    </div>
+
+                    <!-- Part C -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700">
+                                (c) Find the coordinates of the maximum or minimum point.
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[2 marks]</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="text-slate-600 font-semibold">(</span>
+                            <input type="text" id="q3c_x" class="w-20 text-center px-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="x">
+                            <span class="text-slate-600 font-semibold">,</span>
+                            <input type="text" id="q3c_y" class="w-20 text-center px-2 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="y">
+                            <span class="text-slate-600 font-semibold">)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex gap-2">
+                        <button onclick="checkQ3()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-check text-xs"></i> Check Answer
+                        </button>
+                        <button onclick="toggleSolution('sol-q3')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i> Solution
+                        </button>
+                    </div>
+                    <div id="feedback-q3" class="text-sm font-semibold hidden"></div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div id="sol-q3" class="hidden mt-4 p-4 bg-indigo-50/70 border border-indigo-100 rounded-xl text-slate-700 text-sm space-y-3">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Step-by-Step Solution
+                    </h4>
+                    <div class="space-y-2 leading-relaxed">
+                        <p><strong>(a)</strong> Expanding \(y = -(x^2 - 8x - 9) = -x^2 + 8x + 9\). Since the coefficient of \(x^2\) is negative (\(-1\)), the parabola opens downwards and has a <strong>Maximum</strong> point.</p>
+                        <p><strong>(b)</strong> The x-intercepts are at \(x = -1\) and \(x = 9\). The axis of symmetry lies halfway between them:</p>
+                        <p class="pl-4">\(x = \frac{-1 + 9}{2} = \frac{8}{2} = 4\)</p>
+                        <p><strong>(c)</strong> Substitute \(x = 4\) into the equation to find the y-coordinate:</p>
+                        <p class="pl-4">\(y = -(4 + 1)(4 - 9) = -(5)(-5) = 25\)</p>
+                        <p>Thus, the coordinates of the maximum point are <strong>(4, 25)</strong>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 4 -->
+            <section id="q4" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-sm font-extrabold">4</span>
+                        Graph of \(y = x^2 - 2x + 1\)
+                    </h2>
+                    <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Total: 4 Marks</span>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Part A: Table -->
+                    <div class="space-y-3">
+                        <p class="text-slate-700 font-medium text-sm">
+                            (a) Complete the table of values for \(y = x^2 - 2x + 1\) for \(-2 \le x \le 4\): <span class="text-xs text-slate-500 font-normal">[2 marks]</span>
+                        </p>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center border-collapse border border-slate-200 text-sm">
+                                <thead>
+                                    <tr class="bg-indigo-50 text-indigo-900 font-bold border-b border-slate-200">
+                                        <th class="p-2 border-r border-slate-200">\(x\)</th>
+                                        <th class="p-2 border-r border-slate-200">-2</th>
+                                        <th class="p-2 border-r border-slate-200">-1</th>
+                                        <th class="p-2 border-r border-slate-200">0</th>
+                                        <th class="p-2 border-r border-slate-200">1</th>
+                                        <th class="p-2 border-r border-slate-200">2</th>
+                                        <th class="p-2 border-r border-slate-200">3</th>
+                                        <th class="p-2">4</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white">
+                                        <td class="p-2 font-bold text-slate-700 border-r border-slate-200">\(y\)</td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_m2" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_m1" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_0" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_1" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_2" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1 border-r border-slate-200"><input type="text" id="t_3" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                        <td class="p-1"><input type="text" id="t_4" class="w-12 text-center py-1 border border-slate-300 rounded" placeholder="?"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Canvas Chart -->
+                    <div class="bg-slate-900 rounded-2xl p-4 shadow-inner text-white space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-indigo-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-chart-line"></i> Interactive Graph Plotter
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="plotPointsFromTable()" class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg transition font-semibold">
+                                    Plot Table Points
+                                </button>
+                                <button onclick="toggleCurve()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg transition">
+                                    Toggle Smooth Curve
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="canvas-container bg-slate-950 rounded-xl overflow-hidden border border-slate-800">
+                            <canvas id="graphCanvas" width="550" height="420" class="w-full h-auto cursor-pointer"></canvas>
+                        </div>
+                        <p class="text-[11px] text-slate-400 text-center">Tip: You can click directly on grid intersections to plot points manually!</p>
+                    </div>
+
+                    <!-- Part B & C -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                            <div class="flex justify-between items-start">
+                                <label class="font-medium text-slate-700 text-sm">
+                                    (b) Write down coordinates where graph cuts the x-axis:
+                                </label>
+                                <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[1 mark]</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="text-slate-600 font-semibold">(</span>
+                                <input type="text" id="q4b_x" class="w-16 text-center px-2 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="1">
+                                <span class="text-slate-600 font-semibold">,</span>
+                                <input type="text" id="q4b_y" class="w-16 text-center px-2 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="0">
+                                <span class="text-slate-600 font-semibold">)</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                            <div class="flex justify-between items-start">
+                                <label class="font-medium text-slate-700 text-sm">
+                                    (c) Point \(P(-3, k)\) lies on curve. Find \(k\):
+                                </label>
+                                <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[1 mark]</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <span class="text-slate-600 font-semibold">\(k =\)</span>
+                                <input type="text" id="q4c" class="w-24 px-3 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="16">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex gap-2">
+                        <button onclick="checkQ4()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-check text-xs"></i> Check Answer
+                        </button>
+                        <button onclick="toggleSolution('sol-q4')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i> Solution
+                        </button>
+                    </div>
+                    <div id="feedback-q4" class="text-sm font-semibold hidden"></div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div id="sol-q4" class="hidden mt-4 p-4 bg-indigo-50/70 border border-indigo-100 rounded-xl text-slate-700 text-sm space-y-3">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Step-by-Step Solution
+                    </h4>
+                    <div class="space-y-2 leading-relaxed">
+                        <p><strong>(a) Table of Values:</strong></p>
+                        <ul class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs bg-white p-3 rounded-lg border border-indigo-100">
+                            <li>\(x = -2 \implies y = 9\)</li>
+                            <li>\(x = -1 \implies y = 4\)</li>
+                            <li>\(x = 0 \implies y = 1\)</li>
+                            <li>\(x = 1 \implies y = 0\)</li>
+                            <li>\(x = 2 \implies y = 1\)</li>
+                            <li>\(x = 3 \implies y = 4\)</li>
+                            <li>\(x = 4 \implies y = 9\)</li>
+                        </ul>
+                        <p><strong>(b) Cuts the x-axis:</strong> The x-axis is where \(y = 0\). From the equation \(x^2 - 2x + 1 = (x-1)^2 = 0 \implies x = 1\). Point: <strong>(1, 0)</strong>.</p>
+                        <p><strong>(c) Finding \(k\):</strong> Substitute \(x = -3\) into \(y = x^2 - 2x + 1\):</p>
+                        <p class="pl-4">\(k = (-3)^2 - 2(-3) + 1 = 9 + 6 + 1 = 16\)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question 5 -->
+            <section id="q5" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 transition">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-sm font-extrabold">5</span>
+                        Functions: \(f(x) = 3x + 4\) & \(g(x) = x^2 + 6\)
+                    </h2>
+                    <span class="text-xs font-bold text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Total: 10 Marks</span>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Part A -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-4">
+                        <h3 class="font-semibold text-slate-800 text-sm">(a) Find evaluated & inverse functions:</h3>
+                        
+                        <!-- (a)(i) -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/60 pb-3">
+                            <label class="text-sm text-slate-700">(i) Calculate \(g(3)\) <span class="text-xs text-slate-400">[1 mark]</span></label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-semibold">\(g(3) =\)</span>
+                                <input type="text" id="q5ai" class="w-24 px-3 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm" placeholder="15">
+                            </div>
+                        </div>
+
+                        <!-- (a)(ii) -->
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <label class="text-sm text-slate-700">(ii) Find inverse function \(f^{-1}(x)\) <span class="text-xs text-slate-400">[2 marks]</span></label>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-semibold">\(f^{-1}(x) =\)</span>
+                                <input type="text" id="q5aii" class="w-36 px-3 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm" placeholder="(x-4)/3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part B -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700 text-sm">
+                                (b) Find \(fg(x)\) in the form \(ax^2 + bx + c\):
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[2 marks]</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 text-sm">
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5b_a" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="3">
+                                <span>\(x^2 +\)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5b_b" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="0">
+                                <span>\(x +\)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5b_c" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="22">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part C -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700 text-sm">
+                                (c) Find \(gf(x)\) in the form \(ax^2 + bx + c\):
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[2 marks]</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 text-sm">
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5c_a" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="9">
+                                <span>\(x^2 +\)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5c_b" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="24">
+                                <span>\(x +\)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <input type="text" id="q5c_c" class="w-14 text-center py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="22">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part D -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <label class="font-medium text-slate-700 text-sm">
+                                (d) Hence, find values of \(x\) for which \(fg(x) = gf(x)\):
+                            </label>
+                            <span class="text-xs font-semibold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-md">[3 marks]</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-4 text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q5d_1" class="w-24 px-3 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="0">
+                            </div>
+                            <span class="text-slate-500 font-medium">or</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-slate-600">\(x =\)</span>
+                                <input type="text" id="q5d_2" class="w-24 px-3 py-1 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div class="flex gap-2">
+                        <button onclick="checkQ5()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-check text-xs"></i> Check Answer
+                        </button>
+                        <button onclick="toggleSolution('sol-q5')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-sm px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i> Solution
+                        </button>
+                    </div>
+                    <div id="feedback-q5" class="text-sm font-semibold hidden"></div>
+                </div>
+
+                <!-- Solution Panel -->
+                <div id="sol-q5" class="hidden mt-4 p-4 bg-indigo-50/70 border border-indigo-100 rounded-xl text-slate-700 text-sm space-y-3">
+                    <h4 class="font-bold text-indigo-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-graduation-cap"></i> Step-by-Step Solution
+                    </h4>
+                    <div class="space-y-2 leading-relaxed">
+                        <p><strong>(a)(i)</strong> \(g(3) = 3^2 + 6 = 9 + 6 = 15\).</p>
+                        <p><strong>(a)(ii)</strong> Let \(y = 3x + 4 \implies y - 4 = 3x \implies x = \frac{y - 4}{3}\). So \(f^{-1}(x) = \frac{x - 4}{3}\).</p>
+                        <p><strong>(b)</strong> \(fg(x) = f(g(x)) = 3(x^2 + 6) + 4 = 3x^2 + 18 + 4 = 3x^2 + 0x + 22\).</p>
+                        <p><strong>(c)</strong> \(gf(x) = g(f(x)) = (3x + 4)^2 + 6 = (9x^2 + 24x + 16) + 6 = 9x^2 + 24x + 22\).</p>
+                        <p><strong>(d)</strong> Set \(fg(x) = gf(x)\):</p>
+                        <p class="pl-4">\(3x^2 + 22 = 9x^2 + 24x + 22\)</p>
+                        <p class="pl-4">\(0 = 6x^2 + 24x \implies 6x(x + 4) = 0\)</p>
+                        <p class="pl-4">\(x = 0\) or \(x = -4\)</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500">
+        <p>Grade 8 Mathematics Practice Set • Functions & Quadratic Functions • Sampoerna Academy</p>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // Track Marks State
+        const scores = {
+            q1: 0,
+            q2: 0,
+            q3: 0,
+            q4: 0,
+            q5: 0
+        };
+
+        const maxScores = {
+            q1: 5,
+            q2: 2,
+            q3: 5,
+            q4: 4,
+            q5: 10
+        };
+
+        // Canvas Graph Logic Variables
+        let canvas, ctx;
+        let showCurve = true;
+        let plottedPoints = [];
+
+        window.onload = function() {
+            initCanvas();
+            renderGraph();
+        };
+
+        function scrollToQuestion(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleSolution(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+        }
+
+        function updateScoreDisplay() {
+            let total = Object.values(scores).reduce((a, b) => a + b, 0);
+            document.getElementById('score-display').innerText = `${total} / 26`;
+        }
+
+        function setFeedback(elementId, isCorrect, marks, max) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('hidden', 'text-emerald-600', 'text-amber-600', 'text-rose-600');
+            
+            if (marks === max) {
+                el.classList.add('text-emerald-600');
+                el.innerHTML = `<i class="fa-solid fa-circle-check"></i> Excellent! Perfect score (+${marks}/${max})`;
+            } else if (marks > 0) {
+                el.classList.add('text-amber-600');
+                el.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Partial credit: (${marks}/${max} marks)`;
+            } else {
+                el.classList.add('text-rose-600');
+                el.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect. Review steps and try again.`;
+            }
+        }
+
+        function parseFractionOrDec(str) {
+            if (!str) return NaN;
+            str = str.trim().replace(/\s+/g, '');
+            if (str.includes('/')) {
+                const parts = str.split('/');
+                return parseFloat(parts[0]) / parseFloat(parts[1]);
+            }
+            return parseFloat(str);
+        }
+
+        // ================= Q1 logic =================
+        function checkQ1() {
+            let marks = 0;
+            // Part A: x = -0.25 (-1/4), x = 2
+            const v1a_1 = parseFractionOrDec(document.getElementById('q1a_1').value);
+            const v1a_2 = parseFractionOrDec(document.getElementById('q1a_2').value);
+
+            const a1_correct = (Math.abs(v1a_1 + 0.25) < 0.01 && Math.abs(v1a_2 - 2) < 0.01) ||
+                               (Math.abs(v1a_2 + 0.25) < 0.01 && Math.abs(v1a_1 - 2) < 0.01);
+            if (a1_correct) marks += 2;
+
+            // Part B: x = 2, x = 6
+            const v1b_1 = parseFractionOrDec(document.getElementById('q1b_1').value);
+            const v1b_2 = parseFractionOrDec(document.getElementById('q1b_2').value);
+
+            const b1_correct = (Math.abs(v1b_1 - 2) < 0.01 && Math.abs(v1b_2 - 6) < 0.01) ||
+                               (Math.abs(v1b_2 - 2) < 0.01 && Math.abs(v1b_1 - 6) < 0.01);
+            if (b1_correct) marks += 3;
+
+            scores.q1 = marks;
+            document.getElementById('badge-q1').innerText = `${marks}/${maxScores.q1}`;
+            setFeedback('feedback-q1', marks === 5, marks, maxScores.q1);
+            updateScoreDisplay();
+        }
+
+        // ================= Q2 logic =================
+        function checkQ2() {
+            let marks = 0;
+            const out1 = parseFloat(document.getElementById('q2_output1').value);
+            const in2 = parseFloat(document.getElementById('q2_input2').value);
+
+            if (out1 === 7) marks += 1;
+            if (in2 === 7 || in2 === -7) marks += 1;
+
+            scores.q2 = marks;
+            document.getElementById('badge-q2').innerText = `${marks}/${maxScores.q2}`;
+            setFeedback('feedback-q2', marks === 2, marks, maxScores.q2);
+            updateScoreDisplay();
+        }
+
+        // ================= Q3 logic =================
+        function checkQ3() {
+            let marks = 0;
+            const a = document.getElementById('q3a').value;
+            const b = parseFloat(document.getElementById('q3b').value);
+            const cx = parseFloat(document.getElementById('q3c_x').value);
+            const cy = parseFloat(document.getElementById('q3c_y').value);
+
+            if (a === 'Maximum') marks += 1;
+            if (b === 4) marks += 2;
+            if (cx === 4 && cy === 25) marks += 2;
+
+            scores.q3 = marks;
+            document.getElementById('badge-q3').innerText = `${marks}/${maxScores.q3}`;
+            setFeedback('feedback-q3', marks === 5, marks, maxScores.q3);
+            updateScoreDisplay();
+        }
+
+        // ================= Q4 logic =================
+        function checkQ4() {
+            let marks = 0;
+
+            // Table checks (2 marks)
+            const t_vals = [
+                parseFloat(document.getElementById('t_m2').value),
+                parseFloat(document.getElementById('t_m1').value),
+                parseFloat(document.getElementById('t_0').value),
+                parseFloat(document.getElementById('t_1').value),
+                parseFloat(document.getElementById('t_2').value),
+                parseFloat(document.getElementById('t_3').value),
+                parseFloat(document.getElementById('t_4').value)
+            ];
+            const correct_t = [9, 4, 1, 0, 1, 4, 9];
+            let t_correct_count = 0;
+            t_vals.forEach((v, idx) => {
+                if (v === correct_t[idx]) t_correct_count++;
+            });
+            if (t_correct_count === 7) marks += 2;
+            else if (t_correct_count >= 4) marks += 1;
+
+            // Part B: (1, 0) (1 mark)
+            const bx = parseFloat(document.getElementById('q4b_x').value);
+            const by = parseFloat(document.getElementById('q4b_y').value);
+            if (bx === 1 && by === 0) marks += 1;
+
+            // Part C: k = 16 (1 mark)
+            const c_k = parseFloat(document.getElementById('q4c').value);
+            if (c_k === 16) marks += 1;
+
+            scores.q4 = marks;
+            document.getElementById('badge-q4').innerText = `${marks}/${maxScores.q4}`;
+            setFeedback('feedback-q4', marks === 4, marks, maxScores.q4);
+            updateScoreDisplay();
+
+            // Automatically plot points on graph if correct
+            plotPointsFromTable();
+        }
+
+        // ================= Q5 logic =================
+        function checkQ5() {
+            let marks = 0;
+            
+            // (a)(i) g(3) = 15
+            if (parseFloat(document.getElementById('q5ai').value) === 15) marks += 1;
+
+            // (a)(ii) (x-4)/3
+            const aii = document.getElementById('q5aii').value.replace(/\s+/g, '').toLowerCase();
+            if (aii === '(x-4)/3' || aii === 'x/3-4/3' || aii === '(x-4):3') marks += 2;
+
+            // (b) fg(x) = 3x^2 + 0x + 22
+            const b_a = parseFloat(document.getElementById('q5b_a').value);
+            const b_b = parseFloat(document.getElementById('q5b_b').value);
+            const b_c = parseFloat(document.getElementById('q5b_c').value);
+            if (b_a === 3 && (b_b === 0 || isNaN(b_b)) && b_c === 22) marks += 2;
+
+            // (c) gf(x) = 9x^2 + 24x + 22
+            const c_a = parseFloat(document.getElementById('q5c_a').value);
+            const c_b = parseFloat(document.getElementById('q5c_b').value);
+            const c_c = parseFloat(document.getElementById('q5c_c').value);
+            if (c_a === 9 && c_b === 24 && c_c === 22) marks += 2;
+
+            // (d) x = 0 or x = -4
+            const d1 = parseFloat(document.getElementById('q5d_1').value);
+            const d2 = parseFloat(document.getElementById('q5d_2').value);
+            if ((d1 === 0 && d2 === -4) || (d1 === -4 && d2 === 0)) marks += 3;
+
+            scores.q5 = marks;
+            document.getElementById('badge-q5').innerText = `${marks}/${maxScores.q5}`;
+            setFeedback('feedback-q5', marks === 10, marks, maxScores.q5);
+            updateScoreDisplay();
+        }
+
+        function resetAll() {
+            document.querySelectorAll('input').forEach(i => i.value = '');
+            document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+            Object.keys(scores).forEach(k => scores[k] = 0);
+            document.querySelectorAll('[id^="badge-q"]').forEach(b => b.innerText = '0');
+            document.querySelectorAll('[id^="feedback-q"]').forEach(f => f.classList.add('hidden'));
+            plottedPoints = [];
+            renderGraph();
+            updateScoreDisplay();
+        }
+
+        // ================= Interactive Canvas Logic =================
+        function initCanvas() {
+            canvas = document.getElementById('graphCanvas');
+            ctx = canvas.getContext('2d');
+
+            canvas.addEventListener('click', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const clickX = (e.clientX - rect.left) * scaleX;
+                const clickY = (e.clientY - rect.top) * scaleY;
+
+                // Map canvas pixel coordinates to graph (x,y)
+                const graphX = Math.round((clickX - originX) / scale);
+                const graphY = Math.round((originY - clickY) / scale);
+
+                if (graphX >= -4 && graphX <= 5 && graphY >= -1 && graphY <= 11) {
+                    // Check if already plotted
+                    const existingIdx = plottedPoints.findIndex(p => p.x === graphX && p.y === graphY);
+                    if (existingIdx >= 0) {
+                        plottedPoints.splice(existingIdx, 1);
+                    } else {
+                        plottedPoints.push({ x: graphX, y: graphY });
+                    }
+                    renderGraph();
+                }
+            });
+        }
+
+        const originX = 220;
+        const originY = 360;
+        const scale = 35; // 35px per 1 math unit
+
+        function toCanvasX(x) { return originX + x * scale; }
+        function toCanvasY(y) { return originY - y * scale; }
+
+        function toggleCurve() {
+            showCurve = !showCurve;
+            renderGraph();
+        }
+
+        function plotPointsFromTable() {
+            plottedPoints = [
+                {x: -2, y: 9},
+                {x: -1, y: 4},
+                {x: 0, y: 1},
+                {x: 1, y: 0},
+                {x: 2, y: 1},
+                {x: 3, y: 4},
+                {x: 4, y: 9}
+            ];
+            renderGraph();
+        }
+
+        function renderGraph() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Background Grid
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 1;
+
+            for (let x = -5; x <= 8; x++) {
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(x), 0);
+                ctx.lineTo(toCanvasX(x), canvas.height);
+                ctx.stroke();
+            }
+
+            for (let y = -2; y <= 12; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, toCanvasY(y));
+                ctx.lineTo(canvas.width, toCanvasY(y));
+                ctx.stroke();
+            }
+
+            // Draw Axes
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+
+            // X Axis
+            ctx.beginPath();
+            ctx.moveTo(0, originY);
+            ctx.lineTo(canvas.width, originY);
+            ctx.stroke();
+
+            // Y Axis
+            ctx.beginPath();
+            ctx.moveTo(originX, 0);
+            ctx.lineTo(originX, canvas.height);
+            ctx.stroke();
+
+            // Axis Ticks & Labels
+            ctx.fillStyle = '#cbd5e1';
+            ctx.font = '12px Inter, sans-serif';
+            ctx.textAlign = 'center';
+
+            // X-axis numbers
+            for (let x = -4; x <= 6; x++) {
+                if (x === 0) continue;
+                ctx.fillText(x, toCanvasX(x), originY + 18);
+            }
+
+            // Y-axis numbers
+            ctx.textAlign = 'right';
+            for (let y = -1; y <= 11; y++) {
+                if (y === 0) continue;
+                ctx.fillText(y, originX - 8, toCanvasY(y) + 4);
+            }
+            ctx.fillText('0', originX - 8, originY + 16);
+
+            // Draw Parabola Curve if Enabled
+            if (showCurve) {
+                ctx.strokeStyle = '#818cf8';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                let started = false;
+                for (let x = -2.5; x <= 4.5; x += 0.05) {
+                    let y = x * x - 2 * x + 1;
+                    let cx = toCanvasX(x);
+                    let cy = toCanvasY(y);
+
+                    if (cy >= 10 && cy <= canvas.height - 10) {
+                        if (!started) {
+                            ctx.moveTo(cx, cy);
+                            started = true;
+                        } else {
+                            ctx.lineTo(cx, cy);
+                        }
+                    }
+                }
+                ctx.stroke();
+            }
+
+            // Draw Plotted User Points
+            plottedPoints.forEach(p => {
+                const cx = toCanvasX(p.x);
+                const cy = toCanvasY(p.y);
+
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+        }
+    </script>
+</body>
+</html>
